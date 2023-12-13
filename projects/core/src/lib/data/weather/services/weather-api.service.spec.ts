@@ -58,6 +58,13 @@ describe('WeatherApiService', () => {
       httpClientMock.expectNone(url);
       expect(true).toBe(true); // just for prevent warnings - if expectNone fails it will error
     });
+
+    it('should save the cache in the local storage', () => {
+      service.searchLocation(searchTerm).subscribe();
+      const testRequest = httpClientMock.expectOne(url);
+      testRequest.flush({key: 1234});
+      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({key: 'apiRequests', item: service['cache']});
+    });
   });
 
   describe('getCurrentWeather', () => {
@@ -79,9 +86,16 @@ describe('WeatherApiService', () => {
 
     it('should not call api when search term exists in cache', () => {
       service['cacheResponse'](locationKey + '_current', {WeatherText: 'Great'});
-      service.searchLocation(locationKey).subscribe();
+      service.getCurrentWeather(locationKey).subscribe();
       httpClientMock.expectNone(url);
       expect(true).toBe(true); // just for prevent warnings - if expectNone fails it will error
+    });
+
+    it('should save the cache in the local storage', () => {
+      service.getCurrentWeather(locationKey).subscribe();
+      const testRequest = httpClientMock.expectOne(url);
+      testRequest.flush(1);
+      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({key: 'apiRequests', item: service['cache']});
     });
   });
 
@@ -107,6 +121,13 @@ describe('WeatherApiService', () => {
       service.getForecast(locationKey).subscribe();
       httpClientMock.expectNone(url);
       expect(true).toBe(true); // just for prevent warnings - if expectNone fails it will error
+    });
+
+    it('should save the cache in the local storage', () => {
+      service.getForecast(locationKey).subscribe();
+      const testRequest = httpClientMock.expectOne(url);
+      testRequest.flush(1);
+      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({key: 'apiRequests', item: service['cache']});
     });
   });
 
