@@ -1,6 +1,13 @@
-<div class="menu">
-  <a [routerLink]="['/home']" routerLinkActive="home"> Home </a>
-  <a [routerLink]="['/favorites']" routerLinkActive="favorites">Favorites</a>
-</div>
-
-<router-outlet></router-outlet>
+<app-sidenav>
+  <ng-container side>
+    <ul>
+      <li>
+        <a [routerLink]="['/home']" routerLinkActive="home"> Home </a>
+      </li>
+      <li>
+        <a [routerLink]="['/favorites']" routerLinkActive="favorites">Favorites</a>
+      </li>
+    </ul>
+  </ng-container>
+  <router-outlet content></router-outlet>
+</app-sidenav>
