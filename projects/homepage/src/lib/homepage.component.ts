@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
     </p>
   `,
   styles: [
-  ]
+  ],
 })
 export class HomepageComponent {
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HomepageComponent } from './homepage.component';
+import {HomepageRoutingModule} from "./homepage-routing.module";
 
 
 
@@ -8,6 +9,7 @@ import { HomepageComponent } from './homepage.component';
     HomepageComponent
   ],
   imports: [
+    HomepageRoutingModule
   ],
   exports: [
     HomepageComponent
