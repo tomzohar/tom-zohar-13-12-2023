@@ -1,6 +1,30 @@
+:host {
+  color: var(--clr-text);
+}
+
+
 .toolbar-wrapper {
+  height: 64px;
+  padding-left: 20%;
+  padding-right: 20%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 100vw;
+  background-color: var(--clr-primary);
+}
+
+mat-toolbar-row {
+  padding: 0;
+}
+
+:host {
+
+  @media only screen and (max-width: 500px) {
+
+    .toolbar-wrapper {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+  }
 }
