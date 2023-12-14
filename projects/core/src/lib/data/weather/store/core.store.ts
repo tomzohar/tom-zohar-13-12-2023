@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Store, StoreConfig} from '@datorama/akita';
 import {WeatherLocationDto} from "../../../types/interface/weather.interface";
+import {LocalStorageService} from "../../local-storage/local-storage.service";
+import {LocalStorageKeys} from "../../../types/enum/local-storage-keys.enum";
 
 const DEFAULT_LOCATION: WeatherLocationDto = {
   AdministrativeArea: {ID: "TA", LocalizedName: "Tel Aviv"},
@@ -9,7 +11,8 @@ const DEFAULT_LOCATION: WeatherLocationDto = {
   LocalizedName: "Tel Aviv",
   Rank: 31,
   Type: "City",
-  Version: 1
+  Version: 1,
+  isFavorite: (LocalStorageService.getItem<string[]>(LocalStorageKeys.favorites) || []).includes("215854")
 }
 
 export interface CoreState {

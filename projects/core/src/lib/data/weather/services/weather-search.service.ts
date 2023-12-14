@@ -8,8 +8,8 @@ import {LocalStorageKeys} from "../../../types/enum/local-storage-keys.enum";
 @Injectable({providedIn: 'root'})
 export class WeatherSearchService {
   private weatherApiService = inject(WeatherApiService);
-  private localStorageService = inject(LocalStorageService);
   private readonly searchTermCache = new Map<string, WeatherLocationDto[]>;
+  private readonly locationKeysCache = new Map<string, WeatherLocationDto>;
 
   searchLocation(term: string): Observable<WeatherLocationDto[]> {
     if (this.searchTermCache.get(term)) {
@@ -25,10 +25,23 @@ export class WeatherSearchService {
   }
 
   private enrichLocation(locations: WeatherLocationDto[]) {
-    const favorites = this.localStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
+    const favorites = LocalStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
     return locations.map(location => ({
       ...location,
       isFavorite: favorites.includes(location.Key)
     }));
+  }
+
+  getLocationByKey(locationKey: string): Observable<WeatherLocationDto> {
+    if (this.locationKeysCache.get(locationKey)) {
+      return of(this.locationKeysCache.get(locationKey));
+    }
+
+    return this.weatherApiService.getLocationByKey(locationKey)
+      .pipe(
+        tap(location => {
+          this.locationKeysCache.set(locationKey, location);
+        })
+      );
   }
 }

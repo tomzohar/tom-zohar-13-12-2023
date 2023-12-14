@@ -30,7 +30,6 @@ export class CoreQuery extends Query<CoreState> {
   constructor(
     protected override store: CoreStore,
     private weatherApiService: WeatherApiService,
-    private localStorageService: LocalStorageService,
   ) {
     super(store);
   }
@@ -57,7 +56,7 @@ export class CoreQuery extends Query<CoreState> {
   }
 
   setFavorite(isFavorite: boolean) {
-    let favorites = this.localStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
+    let favorites = LocalStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
 
     this.store.update(state => {
 
@@ -68,7 +67,7 @@ export class CoreQuery extends Query<CoreState> {
         favorites = favorites.filter(f => f !== currentLocation.Key);
       }
 
-      this.localStorageService.setItem({key: LocalStorageKeys.favorites, item: favorites});
+      LocalStorageService.setItem({key: LocalStorageKeys.favorites, item: favorites});
 
       return {
         ...state,

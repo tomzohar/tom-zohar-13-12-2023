@@ -1,0 +1,53 @@
+<ng-container *ngIf="viewData$ | async as viewData">
+
+  <ng-container *ngFor="let location of viewData.favorites">
+    <app-card>
+
+      <div class="card-content">
+
+        <div class="icon">
+          <img [src]="getIcon(location.WeatherIcon)" width="200" height="90"
+               alt="current_weather_icon">
+        </div>
+
+        <div class="weather">
+
+          <div class="location">
+            <h2>{{location.AdministrativeArea.LocalizedName}}, {{location.Country.LocalizedName}}</h2>
+          </div>
+
+          <h3 class="temperature">
+            <app-icon icon="thermostat"/>
+
+            <ng-container *ngIf="viewData.isMetric; else imperial">
+              {{location.Temperature.Metric.Value }}{{location.Temperature.Metric.Unit}}
+            </ng-container>
+
+            <ng-template #imperial>
+              {{location.Temperature.Imperial.Value }}{{location.Temperature.Imperial.Unit}}
+            </ng-template>
+          </h3>
+
+          <div class="details">
+            <p>
+              {{location.WeatherText}}
+            </p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <app-favorite-toggle
+            [isFavorite]="location.isFavorite"
+            (changed)="onFavoriteChange(location.Key)"/>
+
+          <app-button (clicked)="onSelectLocation(location)">
+            <app-icon icon="arrow_forward"/>
+          </app-button>
+        </div>
+
+      </div>
+
+    </app-card>
+
+  </ng-container>
+</ng-container>

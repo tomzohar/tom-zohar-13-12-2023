@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  padding: 24px 80px;
+  background: var(--clr-bg);
+  min-height: calc(100vh - var(--toolbar-height));
+  height: calc(100% - var(--toolbar-height));
+
+  app-card {
+    display: block;
+    margin-top: 24px;
+
+    .card-content {
+      display: flex;
+      align-items: center;
+
+      .temperature {
+        margin-top: 16px;
+        display: flex;
+        align-items: start;
+      }
+
+      .details {
+        margin-top: 4px;
+      }
+
+      .actions {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+
+  @media only screen and (max-width: 800px) {
+    padding: 16px 24px;
+    h2 {
+      font-size: 18px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+    .icon {
+      img {
+        width: 120px;
+        height: 70px;
+      }
+    }
+  }
+}

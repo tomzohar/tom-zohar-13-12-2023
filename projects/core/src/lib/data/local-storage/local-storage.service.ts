@@ -5,14 +5,14 @@ import {LocalStorageItem} from "../../types/interface/local-storage-item.interfa
 @Injectable({providedIn: 'root'})
 export class LocalStorageService {
 
-  private readonly prefix = 'weather_app__';
+  static readonly prefix = 'weather_app__';
 
-  setItem(item: LocalStorageItem<unknown>): void {
-    localStorage.setItem(this.prefix + item.key, JSON.stringify(item.item));
+  static setItem(item: LocalStorageItem<unknown>): void {
+    localStorage.setItem(LocalStorageService.prefix + item.key, JSON.stringify(item.item));
   }
 
-  getItem<T>(key: LocalStorageItem<T>['key']): T | null {
-    return JSON.parse(localStorage.getItem(this.prefix + key) as string);
+  static getItem<T>(key: LocalStorageItem<T>['key']): T | null {
+    return JSON.parse(localStorage.getItem(LocalStorageService.prefix + key) as string);
   }
 
 }
