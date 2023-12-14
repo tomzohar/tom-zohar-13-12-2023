@@ -4,7 +4,7 @@
 
 
 .toolbar-wrapper {
-  height: 64px;
+  height: var(--toolbar-height);
   padding-left: 20%;
   padding-right: 20%;
   display: flex;

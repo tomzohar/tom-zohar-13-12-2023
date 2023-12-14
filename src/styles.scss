@@ -1,4 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --clr-grey: #7b7373;
+  --clr-grey-light: #cecdcd;
+  --clr-text: #efefef;
+  --clr-text-secondary: #002041;
+  --clr-border: #cecece;
+  --clr-bg: transparent;
+  --clr-primary: #85add8;
+  --clr-white: #fff;
+
+  --toolbar-height: 64px;
+
+  --bg-img-light: url("assets/clear-sky.jpg");
+  --bg-img-dark: url("assets/clear-sky-night.jpg");
+
+  --homepage-bg-img: url("assets/clear-sky.jpg");
+}
 
 html, body {
   height: 100%;
@@ -11,10 +28,13 @@ body {
 
 
 * {
-  --clr-grey: #7b7373;
-  --clr-grey-light: #cecdcd;
-  --clr-text: #efefef;
-  --clr-border: #cecece;
-  --clr-bg: transparent;
-  --clr-primary: #5b80d8;
+  box-sizing: border-box;
+}
+
+p {
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }

@@ -1,0 +1,8 @@
+<mat-slide-toggle
+  [color]="color"
+  [checked]="checked"
+  [disabled]="disabled"
+  (change)="toggleChanged.emit($event)"
+>
+  <ng-content></ng-content>
+</mat-slide-toggle>

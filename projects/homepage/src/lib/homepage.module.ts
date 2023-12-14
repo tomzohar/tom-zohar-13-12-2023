@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { HomepageComponent } from './homepage.component';
+import {NgModule} from '@angular/core';
+import {HomepageComponent} from './homepage.component';
 import {HomepageRoutingModule} from "./homepage-routing.module";
-
+import {CardComponent} from 'projects/ui/src/public-api';
 
 
 @NgModule({
@@ -9,10 +9,12 @@ import {HomepageRoutingModule} from "./homepage-routing.module";
     HomepageComponent
   ],
   imports: [
-    HomepageRoutingModule
+    HomepageRoutingModule,
+    CardComponent,
   ],
   exports: [
     HomepageComponent
   ]
 })
-export class HomepageModule { }
+export class HomepageModule {
+}

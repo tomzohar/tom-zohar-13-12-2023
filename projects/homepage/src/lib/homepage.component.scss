@@ -1,0 +1,17 @@
+
+:host {
+  .homepage {
+    background-image: var(--homepage-bg-img);
+    display: flex;
+    padding-left: 45%;
+    padding-right: 45%;
+    flex-direction: column;
+    height: 50vh;
+    background-size: cover;
+    background-position: bottom;
+
+    .search-container {
+      margin: auto;
+    }
+  }
+}
