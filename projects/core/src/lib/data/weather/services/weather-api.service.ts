@@ -10,16 +10,16 @@ export class WeatherApiService {
   private apiKey = 'SWEdn1BA0HiTYlB6iop1q1nmsUrrhvR3';
   private apiUrl = 'http://dataservice.accuweather.com';
 
-  searchTermCache = {};
+  private readonly searchTermCache = new Map<string, WeatherLocationDto[]>;
 
   searchLocation(term: string): Observable<WeatherLocationDto[]> {
-    if (this.searchTermCache[term]) {
-      return of(this.searchTermCache[term]);
+    if (this.searchTermCache.get(term)) {
+      return of(this.searchTermCache.get(term));
     }
 
     return this.http.get<WeatherLocationDto[]>(`${this.apiUrl}/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${term}&language=en-us`)
       .pipe(tap(response => {
-        this.searchTermCache[term] = response;
+        this.searchTermCache.set(term, response);
       }));
   }
 
@@ -30,8 +30,8 @@ export class WeatherApiService {
       );
   }
 
-  getForecast(locationKey: string): Observable<MultiDayForecast> {
-    return this.http.get<MultiDayForecast>(`${this.apiUrl}/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}&details=false`)
+  getForecast(locationKey: string, metric = true): Observable<MultiDayForecast> {
+    return this.http.get<MultiDayForecast>(`${this.apiUrl}/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}&details=false&metric=${metric}`);
   }
 
 }

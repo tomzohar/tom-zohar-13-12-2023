@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit {
   appLayoutThemeService = inject(AppLayoutThemeService);
   appCoreStore = inject(CoreQuery);
   darkMode$ = this.appCoreStore.isDarkMode$;
+  isMetric$ = this.appCoreStore.isMetric$;
 
   ngOnInit(): void {
     this.appCoreStore.isDarkMode$
@@ -32,4 +33,7 @@ export class LayoutComponent implements OnInit {
     this.appCoreStore.setDarkMode(event.checked);
   }
 
+  onSetMetric(event: MatSlideToggleChange) {
+    this.appCoreStore.setMetric(event.checked);
+  }
 }

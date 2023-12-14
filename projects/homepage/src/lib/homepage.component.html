@@ -19,7 +19,7 @@
         [icon]="getIcon(viewData.currentWeather.WeatherIcon)"
         [city]="viewData.currentLocation.LocalizedName"
         [country]="viewData.currentLocation.Country.LocalizedName"
-        [temperature]="viewData.currentWeather.Temperature.Metric"
+        [temperature]="viewData.isMetric ? viewData.currentWeather.Temperature.Metric : viewData.currentWeather.Temperature.Imperial"
         [weatherDescription]="viewData.currentWeather.WeatherText"
         [time]="viewData.currentWeather.LocalObservationDateTime"
       />

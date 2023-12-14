@@ -22,14 +22,17 @@ export class HomepageComponent {
   private currentWeather$ = this.appCore.currentWeather$;
   private currentLocation$ = this.appCore.currentLocation$;
   private multiForecast$ = this.appCore.multiForecast$;
+  private isMetric$ = this.appCore.isMetric$;
   public viewData$: Observable<{
     currentWeather: CurrentWeatherDto;
     currentLocation: WeatherLocationDto,
     multiForecast: MultiDayForecast,
+    isMetric: boolean,
   }> = combineLatest({
     currentWeather: this.currentWeather$,
     currentLocation: this.currentLocation$,
     multiForecast: this.multiForecast$,
+    isMetric: this.isMetric$,
   });
 
   searchOptions$ = new BehaviorSubject<string[]>([]);

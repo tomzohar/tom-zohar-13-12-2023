@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Store, StoreConfig} from '@datorama/akita';
-import {CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from "../../../types/interface/weather.interface";
+import {WeatherLocationDto} from "../../../types/interface/weather.interface";
 
 const DEFAULT_LOCATION: WeatherLocationDto = {
   AdministrativeArea: {ID: "TA", LocalizedName: "Tel Aviv"},
@@ -15,16 +15,14 @@ const DEFAULT_LOCATION: WeatherLocationDto = {
 export interface CoreState {
   isDarkMode: boolean;
   currentLocation: WeatherLocationDto | null,
-  currentWeather: CurrentWeatherDto | null,
-  multiForecast: MultiDayForecast | null,
+  metric: boolean;
 }
 
 export function createInitialState(): CoreState {
   return {
     isDarkMode: false,
     currentLocation: DEFAULT_LOCATION,
-    currentWeather: null,
-    multiForecast: null
+    metric: true,
   };
 }
 

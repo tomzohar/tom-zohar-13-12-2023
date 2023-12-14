@@ -8,6 +8,14 @@
 
       <span>
         <app-slide-toggle
+          [checked]="isMetric$ | async"
+          (toggleChanged)="onSetMetric($event)">
+          C / F
+        </app-slide-toggle>
+      </span>
+
+      <span>
+        <app-slide-toggle
           [checked]="darkMode$ | async"
           (toggleChanged)="onToggleDarkmode($event)">
           {{darkMode$ | async}}
