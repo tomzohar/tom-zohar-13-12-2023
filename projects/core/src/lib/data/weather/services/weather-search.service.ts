@@ -3,6 +3,7 @@ import {map, Observable, of, tap} from "rxjs";
 import {WeatherLocationDto} from "../../../types/interface/weather.interface";
 import {LocalStorageService} from "../../local-storage/local-storage.service";
 import {WeatherApiService} from "./weather-api.service";
+import {LocalStorageKeys} from "../../../types/enum/local-storage-keys.enum";
 
 @Injectable({providedIn: 'root'})
 export class WeatherSearchService {
@@ -24,7 +25,7 @@ export class WeatherSearchService {
   }
 
   private enrichLocation(locations: WeatherLocationDto[]) {
-    const favorites = this.localStorageService.getItem<string[]>('favorites') || [];
+    const favorites = this.localStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
     return locations.map(location => ({
       ...location,
       isFavorite: favorites.includes(location.Key)
