@@ -63,7 +63,10 @@ describe('WeatherApiService', () => {
       service.searchLocation(searchTerm).subscribe();
       const testRequest = httpClientMock.expectOne(url);
       testRequest.flush({key: 1234});
-      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({key: 'apiRequests', item: service['cache']});
+      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({
+        key: 'apiRequests',
+        item: service['searchTermCache']
+      });
     });
   });
 
@@ -95,7 +98,10 @@ describe('WeatherApiService', () => {
       service.getCurrentWeather(locationKey).subscribe();
       const testRequest = httpClientMock.expectOne(url);
       testRequest.flush(1);
-      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({key: 'apiRequests', item: service['cache']});
+      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({
+        key: 'apiRequests',
+        item: service['searchTermCache']
+      });
     });
   });
 
@@ -127,7 +133,10 @@ describe('WeatherApiService', () => {
       service.getForecast(locationKey).subscribe();
       const testRequest = httpClientMock.expectOne(url);
       testRequest.flush(1);
-      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({key: 'apiRequests', item: service['cache']});
+      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({
+        key: 'apiRequests',
+        item: service['searchTermCache']
+      });
     });
   });
 

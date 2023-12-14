@@ -51,6 +51,12 @@ export class CoreQuery extends Query<CoreState> {
   setCurrentLocation(location: CoreState['currentLocation']): void {
     this.store.update(state => ({
       ...state,
+      currentWeather: null,
+      multiForecast: null
+    }));
+    
+    this.store.update(state => ({
+      ...state,
       currentLocation: location
     }));
   }

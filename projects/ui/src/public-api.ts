@@ -11,3 +11,4 @@ export * from './lib/dropdown/dropdown.component';
 export * from './lib/card/card.component';
 export * from './lib/slide-toggle/slide-toggle.component';
 export * from './lib/layout/layout.component';
+export * from './lib/autocomplete/autocomplete.component';

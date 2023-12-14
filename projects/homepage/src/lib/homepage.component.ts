@@ -1,7 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {getIcon} from 'projects/core/src/lib/const/weather-icons.const';
-import {CoreQuery, CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from 'projects/core/src/public-api';
-import {combineLatest, Observable} from "rxjs";
+import {
+  CoreQuery,
+  CurrentWeatherDto,
+  MultiDayForecast,
+  WeatherApiService,
+  WeatherLocationDto
+} from 'projects/core/src/public-api';
+import {BehaviorSubject, catchError, combineLatest, Observable, throwError} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -11,6 +17,7 @@ import {combineLatest, Observable} from "rxjs";
 })
 export class HomepageComponent {
   private appCore = inject(CoreQuery);
+  private weatherApi = inject(WeatherApiService);
 
   private currentWeather$ = this.appCore.currentWeather$;
   private currentLocation$ = this.appCore.currentLocation$;
@@ -25,7 +32,33 @@ export class HomepageComponent {
     multiForecast: this.multiForecast$,
   });
 
+  searchOptions$ = new BehaviorSubject<string[]>([]);
+
+  searchLocations: WeatherLocationDto[];
+
   getIcon(weatherIcon: number) {
     return getIcon(weatherIcon);
+  }
+
+  onNewSearch(term: string): void {
+    this.weatherApi.searchLocation(term)
+      .pipe(
+        catchError((err) => {
+          alert(err);
+          return throwError(() => err);
+        })
+      )
+      .subscribe(response => {
+        this.searchLocations = response;
+        this.searchOptions$.next(response.map(location => location.AdministrativeArea.LocalizedName));
+      })
+
+  }
+
+  onLocationSelected(selectedLocation: string): void {
+    const location = this.searchLocations.find(l => l.AdministrativeArea.LocalizedName === selectedLocation);
+    if (location) {
+      this.appCore.setCurrentLocation(location);
+    }
   }
 }
