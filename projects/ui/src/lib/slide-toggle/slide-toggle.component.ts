@@ -14,5 +14,6 @@ export class SlideToggleComponent {
   @Input() color: ThemeColors;
   @Input() checked: boolean;
   @Input() disabled: boolean;
+  @Input() labelPosition: 'before' | 'after';
   @Output() toggleChanged = new EventEmitter<MatSlideToggleChange>();
 }

@@ -6,19 +6,21 @@
 
     <ng-container right>
 
-      <span>
+      <span class="metric-toggle">
         <app-slide-toggle
           [checked]="isMetric$ | async"
+          [labelPosition]="'before'"
           (toggleChanged)="onSetMetric($event)">
           C / F
         </app-slide-toggle>
       </span>
 
-      <span>
+      <span class="darkmode-toggle">
         <app-slide-toggle
           [checked]="darkMode$ | async"
+          [labelPosition]="'before'"
           (toggleChanged)="onToggleDarkmode($event)">
-          {{darkMode$ | async}}
+          Dark mode
         </app-slide-toggle>
       </span>
 
