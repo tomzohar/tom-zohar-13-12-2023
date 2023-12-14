@@ -63,4 +63,15 @@
       width: 100%;
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    .homepage {
+      .search-container {
+        .search-box {
+          width: 280px;
+          height: 140px;
+        }
+      }
+    }
+  }
 }

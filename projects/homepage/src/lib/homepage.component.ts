@@ -7,7 +7,7 @@ import {
   WeatherLocationDto,
   WeatherSearchService
 } from 'projects/core/src/public-api';
-import {BehaviorSubject, catchError, combineLatest, Observable, throwError} from "rxjs";
+import {BehaviorSubject, catchError, combineLatest, EMPTY, Observable} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -48,7 +48,7 @@ export class HomepageComponent {
       .pipe(
         catchError((err) => {
           alert(err);
-          return throwError(() => err);
+          return EMPTY;
         })
       )
       .subscribe(response => {

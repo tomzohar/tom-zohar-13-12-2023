@@ -12,6 +12,7 @@
     .card-content {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       .temperature {
         margin-top: 16px;
@@ -48,6 +49,12 @@
       img {
         width: 120px;
         height: 70px;
+      }
+    }
+
+    app-card {
+      .card-content {
+        align-items: end;
       }
     }
   }

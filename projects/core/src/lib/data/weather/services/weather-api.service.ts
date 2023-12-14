@@ -32,4 +32,13 @@ export class WeatherApiService {
     return this.http.get<MultiDayForecast>(`${this.apiUrl}/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}&details=false&metric=${metric}`);
   }
 
+  getClientIp(): Observable<string> {
+    return this.http.get<string>("http://api.ipify.org/?format=json").pipe(map((res: any) => {
+      return res.ip;
+    }));
+  }
+
+  getLocationByIp(ip: string): Observable<WeatherLocationDto> {
+    return this.http.get<WeatherLocationDto>(`${this.apiUrl}/locations/v1/cities/ipaddress?apikey=SWEdn1BA0HiTYlB6iop1q1nmsUrrhvR3&q=${ip}&details=false`);
+  }
 }
