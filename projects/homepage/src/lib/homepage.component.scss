@@ -31,19 +31,6 @@
       flex-direction: column;
       align-items: center;
 
-      .weather-details {
-        display: flex;
-        align-items: start;
-        flex-wrap: wrap;
-        padding: 16px;
-
-
-        .details {
-          display: flex;
-          flex-direction: column;
-          row-gap: 8px;
-        }
-      }
 
       .forecast {
         display: flex;
@@ -52,40 +39,17 @@
         margin-top: 24px;
         flex-wrap: wrap;
         row-gap: 16px;
-
-        .forecast-card {
-
-          .description {
-            display: flex;
-            align-items: start;
-          }
-
-          .day {
-            margin-top: 8px;
-          }
-
-          .date {
-            margin-top: 8px;
-          }
-        }
       }
     }
   }
-
-  @media only screen and (max-width: 500px) {
-    img {
-      width: 180px;
-      height: 80px;
-    }
-  }
-
+  
   @media only screen and (max-width: 1000px) {
     .forecast {
       flex-direction: column;
       width: 100%;
     }
 
-    .forecast-card {
+    app-forecast-summary {
       width: 100%;
     }
   }
