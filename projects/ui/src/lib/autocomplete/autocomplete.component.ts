@@ -12,12 +12,13 @@ import {
 import {CommonModule} from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {BehaviorSubject, debounceTime, filter, Observable, of, Subject, takeUntil, tap} from "rxjs";
+import {debounceTime, filter, Observable, of, Subject, takeUntil, tap} from "rxjs";
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-autocomplete',
   standalone: true,
-  imports: [CommonModule, MatInputModule, ReactiveFormsModule],
+  imports: [CommonModule, MatInputModule, ReactiveFormsModule, MatAutocompleteModule],
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -30,12 +31,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @Output() optionSelected = new EventEmitter<string>();
 
   filteredOptions$: Observable<string[]>;
-  closed$ = new BehaviorSubject<boolean>(true);
   private destroyed$ = new Subject();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['options']) {
-      this.setClosed(false);
       this.filteredOptions$ = of(this.options);
     }
   }
@@ -46,7 +45,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
         debounceTime(300),
         tap(value => {
           if (value.length < 3) {
-            this.setClosed(true);
             this.options = [];
           }
         }),
@@ -55,7 +53,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       )
       .subscribe(value => {
         this.changed.emit(value);
-        this.setClosed(false);
       });
   }
 
@@ -63,12 +60,9 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     this.destroyed$.next(null);
   }
 
-  onOptionSelected(option: string) {
+  onOptionSelected(option: MatAutocompleteSelectedEvent): void {
     this.formControl.patchValue('');
-    this.optionSelected.emit(option);
+    this.optionSelected.emit(option.option.value as string);
   }
 
-  private setClosed(isClosed: boolean): void {
-    this.closed$.next(isClosed);
-  }
 }

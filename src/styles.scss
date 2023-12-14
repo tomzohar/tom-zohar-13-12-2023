@@ -16,6 +16,12 @@
   --bg-img-dark: url("assets/clear-sky-night.jpg");
 
   --homepage-bg-img: url("assets/clear-sky.jpg");
+
+  --mdc-theme-text-primary-on-background: var(--clr-text);
+
+  .mat-mdc-menu-item .mat-icon-no-color, .mat-mdc-menu-submenu-icon {
+    --mdc-theme-text-primary-on-background: var(--clr-primary);
+  }
 }
 
 html, body {

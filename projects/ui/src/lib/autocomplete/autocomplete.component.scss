@@ -24,3 +24,9 @@ form {
 
   }
 }
+
+::ng-deep {
+  .mat-mdc-option > .mdc-list-item__primary-text {
+    color: var(--clr-primary);
+  }
+}

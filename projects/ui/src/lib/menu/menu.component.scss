@@ -1,0 +1,16 @@
+:host {
+  color: var(--clr-primary);
+
+}
+
+::ng-deep {
+
+  .mdc-list-item__primary-text {
+    color: var(--clr-primary);
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+  }
+}

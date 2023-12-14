@@ -1,20 +1,26 @@
-<form>
+<form (submit)="$event.preventDefault()">
   <mat-form-field>
 
     <input type="text"
            placeholder="Enter location"
            matInput
-           [formControl]="formControl">
+           [formControl]="formControl"
+           [matAutocomplete]="auto">
 
-  </mat-form-field>
 
-  <div class="options" *ngIf="(closed$ | async) === false">
-    <div *ngFor="let option of filteredOptions$ | async"
-         class="option"
-         (click)="onOptionSelected(option)"
+    <mat-autocomplete
+      autoActiveFirstOption
+      #auto="matAutocomplete"
+      (optionSelected)="onOptionSelected($event)"
     >
-      {{option}}
-    </div>
-  </div>
+
+      <mat-option *ngFor="let option of options"
+                  [value]="option"
+      >
+        {{option}}
+      </mat-option>
+
+    </mat-autocomplete>
+  </mat-form-field>
 
 </form>

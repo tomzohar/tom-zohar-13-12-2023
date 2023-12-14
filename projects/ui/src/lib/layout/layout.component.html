@@ -1,34 +1,31 @@
 <div class="layout">
   <app-toolbar>
-    <ng-container left>
+    <div left>
       <h1>Weather app</h1>
-    </ng-container>
+    </div>
 
-    <ng-container right>
+    <div class="content-right" right>
 
-      <span class="metric-toggle">
+      <div class="metric-toggle">
         <app-slide-toggle
           [checked]="isMetric$ | async"
           [labelPosition]="'before'"
           (toggleChanged)="onSetMetric($event)">
-          F / C
+          <app-icon icon="thermostat"/>
         </app-slide-toggle>
-      </span>
+      </div>
 
-      <span class="darkmode-toggle">
+      <div class="darkmode-toggle">
         <app-slide-toggle
           [checked]="darkMode$ | async"
           [labelPosition]="'before'"
           (toggleChanged)="onToggleDarkmode($event)">
-          Dark mode
+          <app-icon icon="dark_mode"/>
         </app-slide-toggle>
-      </span>
+      </div>
 
-      <span>
-        <a [routerLink]="['/home']" routerLinkActive="home"> Home </a>
-        <a [routerLink]="['/favorites']" routerLinkActive="favorites">Favorites</a>
-      </span>
-    </ng-container>
+      <app-menu [menuItems]="menuItems" (selected)="onMenuItemSelected($event)"/>
+    </div>
   </app-toolbar>
 
   <ng-content></ng-content>

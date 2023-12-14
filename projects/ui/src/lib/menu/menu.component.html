@@ -1,1 +1,16 @@
-<p>menu works!</p>
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <app-icon icon="more_vert"/>
+</button>
+<mat-menu #menu="matMenu">
+
+  <span mat-menu-item *ngFor="let item of menuItems">
+  <div class="menu-item" (click)="selected.emit(item)">
+    <div>
+    <app-icon *ngIf="item.icon" [icon]="item.icon"/>
+      </div>
+    <div>
+      {{ item.label }}
+    </div>
+  </div>
+  </span>
+</mat-menu>

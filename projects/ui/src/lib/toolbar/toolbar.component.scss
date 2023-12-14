@@ -2,6 +2,10 @@
   color: var(--clr-text);
 }
 
+.left, .right {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
 .toolbar-wrapper {
   height: var(--toolbar-height);
