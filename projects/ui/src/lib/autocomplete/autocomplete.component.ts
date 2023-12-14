@@ -1,18 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {debounceTime, filter, Observable, of, Subject, takeUntil, tap} from "rxjs";
+import {debounceTime, filter, Subject, takeUntil, tap} from "rxjs";
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
@@ -23,21 +13,15 @@ import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from "@angular/mate
   styleUrls: ['./autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
+export class AutocompleteComponent implements OnInit, OnDestroy {
 
   formControl = new FormControl('');
   @Input() options: string[];
   @Output() changed = new EventEmitter<string>();
   @Output() optionSelected = new EventEmitter<string>();
 
-  filteredOptions$: Observable<string[]>;
   private destroyed$ = new Subject();
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['options']) {
-      this.filteredOptions$ = of(this.options);
-    }
-  }
 
   ngOnInit() {
     this.formControl.valueChanges
@@ -47,6 +31,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
           if (value.length < 3) {
             this.options = [];
           }
+        }),
+        filter(value => {
+          const regex = /[^a-z_.,-]/i;
+          return !regex.test(value);
         }),
         filter(value => value.length > 2),
         takeUntil(this.destroyed$)
