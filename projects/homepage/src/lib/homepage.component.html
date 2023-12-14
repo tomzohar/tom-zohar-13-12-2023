@@ -1,10 +1,50 @@
 <div class="homepage">
 
-  <app-card class="search-container">
-    <label>
-      Search
-      <input type="text">
-    </label>
-  </app-card>
+  <div class="search-container">
+
+    <app-card class="search-box">
+      <label>
+        Search
+        <input type="text">
+      </label>
+    </app-card>
+  </div>
+
+
+  <div class="current-weather">
+    <ng-container *ngIf="viewData$ | async as viewData">
+      <app-card>
+        <div class="weather-details">
+
+          <div class="icon">
+            <img [ngSrc]="getIcon(viewData.currentWeather.WeatherIcon)" width="200" height="90" priority
+                 alt="current_weather_icon">
+          </div>
+
+          <div class="details">
+
+            <h2 class="location">
+              {{viewData.currentLocation.LocalizedName}},
+              {{ viewData.currentLocation.Country.LocalizedName }}
+            </h2>
+
+            <div class="temperature">
+              <h3>{{viewData.currentWeather.Temperature.Metric.Value}} {{viewData.currentWeather.Temperature.Metric.Unit}}</h3>
+              <h4 class="description">
+                {{viewData.currentWeather.WeatherText}}
+              </h4>
+            </div>
+
+            <div class="time">
+              {{viewData.currentWeather.LocalObservationDateTime | date}}
+            </div>
+
+          </div>
+        </div>
+
+      </app-card>
+    </ng-container>
+
+  </div>
 
 </div>

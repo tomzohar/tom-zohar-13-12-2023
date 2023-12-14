@@ -1,0 +1,25 @@
+<div class="layout">
+  <app-toolbar>
+    <ng-container left>
+      <h1>Weather app</h1>
+    </ng-container>
+
+    <ng-container right>
+
+      <span>
+        <app-slide-toggle
+          [checked]="darkMode$ | async"
+          (toggleChanged)="onToggleDarkmode($event)">
+          {{darkMode$ | async}}
+        </app-slide-toggle>
+      </span>
+
+      <span>
+        <a [routerLink]="['/home']" routerLinkActive="home"> Home </a>
+        <a [routerLink]="['/favorites']" routerLinkActive="favorites">Favorites</a>
+      </span>
+    </ng-container>
+  </app-toolbar>
+
+  <ng-content></ng-content>
+</div>

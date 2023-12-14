@@ -62,8 +62,8 @@ export interface CurrentWeatherDto extends WeatherBase {
 }
 
 export interface WeatherLocationArea {
-  ID: 'TA',
-  LocalizedName: 'Tel Aviv'
+  ID: string;
+  LocalizedName: string;
 }
 
 export interface WeatherLocationDto {

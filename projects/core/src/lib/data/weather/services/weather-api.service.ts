@@ -1,6 +1,6 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable, of, tap} from "rxjs";
+import {map, Observable, of, tap} from "rxjs";
 import {LocalStorageService} from "../../local-storage/local-storage.service";
 import {CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from "../../../types/interface/weather.interface";
 
@@ -33,11 +33,12 @@ export class WeatherApiService {
       return of(currentWeather);
     }
 
-    return this.http.get<CurrentWeatherDto>(`${this.apiUrl}/currentconditions/v1/${locationKey}?apikey=${this.apiKey}&details=false`)
+    return this.http.get<CurrentWeatherDto[]>(`${this.apiUrl}/currentconditions/v1/${locationKey}?apikey=${this.apiKey}&details=false`)
       .pipe(
+        map(response => response[0]),
         tap(response => {
           this.cacheResponse(locationKey + '_current', response);
-        })
+        }),
       );
   }
 

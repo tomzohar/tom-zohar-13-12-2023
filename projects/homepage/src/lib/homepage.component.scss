@@ -1,17 +1,52 @@
 
 :host {
+
   .homepage {
-    background-image: var(--homepage-bg-img);
-    display: flex;
-    padding-left: 45%;
-    padding-right: 45%;
-    flex-direction: column;
-    height: 50vh;
-    background-size: cover;
-    background-position: bottom;
+    height: calc(100vh - var(--toolbar-height));
+    background: var(--clr-bg);
 
     .search-container {
+
+      background-image: var(--homepage-bg-img);
+      display: flex;
+      padding-left: 45%;
+      padding-right: 45%;
+      flex-direction: column;
+      height: 50vh;
+      background-size: cover;
+      background-position: bottom;
+    }
+
+    .search-box {
       margin: auto;
+    }
+
+    .current-weather {
+      width: fit-content;
+      margin-top: 40px;
+      margin-left: auto;
+      margin-right: auto;
+
+      .weather-details {
+        display: flex;
+        align-items: start;
+        flex-wrap: wrap;
+        padding: 16px;
+
+
+        .details {
+          display: flex;
+          flex-direction: column;
+          row-gap: 8px;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    img {
+      width: 180px;
+      height: 80px;
     }
   }
 }

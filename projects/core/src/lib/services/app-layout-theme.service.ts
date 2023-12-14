@@ -15,6 +15,11 @@ export class AppLayoutThemeService {
       : AppColorsLightMode[AppColors.textPrimary]
     );
 
+    this.setStyle(AppColors.bgColor, isDarkMode
+      ? AppColorsDarkMode[AppColors.bgColor]
+      : AppColorsLightMode[AppColors.bgColor]
+    )
+
     this.setStyle(AppCssVariables.homepageBg, `url("clear-sky${isDarkMode ? '-night' : ''}.jpg")`);
 
   }
