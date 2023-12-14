@@ -24,6 +24,8 @@
       </div>
 
     </div>
+
+    <app-favorite-toggle [isFavorite]="favorite" (changed)="toggleFavorite.emit($event)"/>
   </div>
 
 </app-card>

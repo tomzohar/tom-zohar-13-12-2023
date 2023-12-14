@@ -4,6 +4,7 @@ import {CoreState, CoreStore} from "./core.store";
 import {combineLatest, switchMap, tap} from "rxjs";
 import {WeatherApiService} from "../services/weather-api.service";
 import {CurrentWeatherDto, WeatherLocationDto} from "../../../types/interface/weather.interface";
+import {LocalStorageService} from "../../local-storage/local-storage.service";
 
 
 @Injectable({providedIn: 'root'})
@@ -28,6 +29,7 @@ export class CoreQuery extends Query<CoreState> {
   constructor(
     protected override store: CoreStore,
     private weatherApiService: WeatherApiService,
+    private localStorageService: LocalStorageService,
   ) {
     super(store);
   }
@@ -51,5 +53,29 @@ export class CoreQuery extends Query<CoreState> {
       ...state,
       metric: isMetric
     }));
+  }
+
+  setFavorite(isFavorite: boolean) {
+    let favorites = this.localStorageService.getItem<string[]>('favorites') || [];
+
+    this.store.update(state => {
+
+      const {currentLocation} = state;
+      if (isFavorite && !favorites.includes(currentLocation.Key)) {
+        favorites.push(currentLocation.Key);
+      } else {
+        favorites = favorites.filter(f => f !== currentLocation.Key);
+      }
+
+      this.localStorageService.setItem({key: 'favorites', item: favorites});
+
+      return {
+        ...state,
+        currentLocation: {
+          ...currentLocation,
+          isFavorite,
+        }
+      }
+    })
   }
 }

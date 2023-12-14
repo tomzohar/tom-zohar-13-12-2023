@@ -74,4 +74,5 @@ export interface WeatherLocationDto {
   Rank: number;
   Type: string;
   Version: number;
+  isFavorite?: boolean;
 }

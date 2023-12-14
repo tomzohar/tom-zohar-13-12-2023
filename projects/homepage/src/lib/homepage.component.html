@@ -22,6 +22,8 @@
         [temperature]="viewData.isMetric ? viewData.currentWeather.Temperature.Metric : viewData.currentWeather.Temperature.Imperial"
         [weatherDescription]="viewData.currentWeather.WeatherText"
         [time]="viewData.currentWeather.LocalObservationDateTime"
+        [favorite]="viewData.currentLocation.isFavorite"
+        (toggleFavorite)="onToggleFavorite($event)"
       />
 
       <div class="forecast">

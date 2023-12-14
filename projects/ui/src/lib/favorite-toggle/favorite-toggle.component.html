@@ -1,0 +1,11 @@
+<app-button class="favorite"
+            (clicked)="onClicked()"
+>
+  <app-icon
+    [ngStyle]="{
+    color: isFavorite
+    ? 'var(--clr-primary)'
+    : 'var(--clr-grey-light)'
+    }"
+    icon="star_rate"/>
+</app-button>

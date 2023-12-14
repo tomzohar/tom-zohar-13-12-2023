@@ -12,3 +12,4 @@ export * from './lib/card/card.component';
 export * from './lib/slide-toggle/slide-toggle.component';
 export * from './lib/layout/layout.component';
 export * from './lib/autocomplete/autocomplete.component';
+export * from './lib/favorite-toggle/favorite-toggle.component';

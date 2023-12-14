@@ -4,8 +4,8 @@ import {
   CoreQuery,
   CurrentWeatherDto,
   MultiDayForecast,
-  WeatherApiService,
-  WeatherLocationDto
+  WeatherLocationDto,
+  WeatherSearchService
 } from 'projects/core/src/public-api';
 import {BehaviorSubject, catchError, combineLatest, Observable, throwError} from "rxjs";
 
@@ -17,7 +17,7 @@ import {BehaviorSubject, catchError, combineLatest, Observable, throwError} from
 })
 export class HomepageComponent {
   private appCore = inject(CoreQuery);
-  private weatherApi = inject(WeatherApiService);
+  private weatherSearchService = inject(WeatherSearchService);
 
   private currentWeather$ = this.appCore.currentWeather$;
   private currentLocation$ = this.appCore.currentLocation$;
@@ -44,7 +44,7 @@ export class HomepageComponent {
   }
 
   onNewSearch(term: string): void {
-    this.weatherApi.searchLocation(term)
+    this.weatherSearchService.searchLocation(term)
       .pipe(
         catchError((err) => {
           alert(err);
@@ -63,5 +63,9 @@ export class HomepageComponent {
     if (location) {
       this.appCore.setCurrentLocation(location);
     }
+  }
+
+  onToggleFavorite(isFavorite: boolean) {
+    this.appCore.setFavorite(isFavorite);
   }
 }
