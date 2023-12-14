@@ -22,7 +22,17 @@ export class CoreQuery extends Query<CoreState> {
             }))
       })
     );
-  multiForecast$ = this.select('multiForecast');
+  multiForecast$ = combineLatest([this.select('currentLocation'), this.select('multiForecast')])
+    .pipe(
+      switchMap(([location, forecast]) => {
+        return forecast ?
+          of(forecast) :
+          this.weatherApiService.getForecast(location.Key)
+            .pipe(tap((forecast) => {
+              this.setMultiForecast(forecast);
+            }))
+      })
+    );
 
   constructor(
     protected override store: CoreStore,

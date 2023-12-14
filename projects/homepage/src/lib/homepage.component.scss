@@ -2,7 +2,8 @@
 :host {
 
   .homepage {
-    height: calc(100vh - var(--toolbar-height));
+    min-height: calc(100vh - var(--toolbar-height));
+    height: calc(100% - var(--toolbar-height));
     background: var(--clr-bg);
 
     .search-container {
@@ -12,7 +13,7 @@
       padding-left: 45%;
       padding-right: 45%;
       flex-direction: column;
-      height: 50vh;
+      height: 35vh;
       background-size: cover;
       background-position: bottom;
     }
@@ -26,6 +27,9 @@
       margin-top: 40px;
       margin-left: auto;
       margin-right: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .weather-details {
         display: flex;
@@ -40,6 +44,31 @@
           row-gap: 8px;
         }
       }
+
+      .forecast {
+        display: flex;
+        align-items: center;
+        column-gap: 16px;
+        margin-top: 24px;
+        flex-wrap: wrap;
+        row-gap: 16px;
+
+        .forecast-card {
+
+          .description {
+            display: flex;
+            align-items: start;
+          }
+
+          .day {
+            margin-top: 8px;
+          }
+
+          .date {
+            margin-top: 8px;
+          }
+        }
+      }
     }
   }
 
@@ -47,6 +76,17 @@
     img {
       width: 180px;
       height: 80px;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .forecast {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .forecast-card {
+      width: 100%;
     }
   }
 }

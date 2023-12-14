@@ -13,38 +13,27 @@
 
   <div class="current-weather">
     <ng-container *ngIf="viewData$ | async as viewData">
-      <app-card>
-        <div class="weather-details">
 
-          <div class="icon">
-            <img [ngSrc]="getIcon(viewData.currentWeather.WeatherIcon)" width="200" height="90" priority
-                 alt="current_weather_icon">
-          </div>
+      <app-current-weather
+        [icon]="getIcon(viewData.currentWeather.WeatherIcon)"
+        [city]="viewData.currentLocation.LocalizedName"
+        [country]="viewData.currentLocation.Country.LocalizedName"
+        [temperature]="viewData.currentWeather.Temperature.Metric"
+        [weatherDescription]="viewData.currentWeather.WeatherText"
+        [time]="viewData.currentWeather.LocalObservationDateTime"
+      />
 
-          <div class="details">
+      <div class="forecast">
+        <app-forecast-summary
+          *ngFor="let forecast of viewData.multiForecast.DailyForecasts"
+          [icon]="getIcon(viewData.currentWeather.IsDayTime ? forecast.Day.Icon : forecast.Night.Icon)"
+          [description]="forecast.Day.IconPhrase"
+          [maxTemp]="forecast.Temperature.Maximum"
+          [minTemp]="forecast.Temperature.Minimum"
+          [date]="forecast.Date"
+        />
+      </div>
 
-            <h2 class="location">
-              {{viewData.currentLocation.LocalizedName}},
-              {{ viewData.currentLocation.Country.LocalizedName }}
-            </h2>
-
-            <div class="temperature">
-              <h3>{{viewData.currentWeather.Temperature.Metric.Value}} {{viewData.currentWeather.Temperature.Metric.Unit}}</h3>
-              <h4 class="description">
-                {{viewData.currentWeather.WeatherText}}
-              </h4>
-            </div>
-
-            <div class="time">
-              {{viewData.currentWeather.LocalObservationDateTime | date}}
-            </div>
-
-          </div>
-        </div>
-
-      </app-card>
     </ng-container>
-
   </div>
-
 </div>

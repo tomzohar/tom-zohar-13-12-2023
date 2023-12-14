@@ -1,0 +1,16 @@
+<app-card class="forecast-card">
+
+  <div class="description">
+    <img [ngSrc]="icon" width="50" height="30" alt="icon">
+    <h4>{{ description }}</h4>
+  </div>
+
+  <h3 class="day">
+    {{maxTemp.Value}}{{maxTemp.Unit}} - {{minTemp.Value}}{{minTemp.Unit}}
+  </h3>
+
+  <div class="date">
+    {{ date | date }}
+  </div>
+
+</app-card>

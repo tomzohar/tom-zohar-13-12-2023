@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {getIcon} from 'projects/core/src/lib/const/weather-icons.const';
-import {CoreQuery, CurrentWeatherDto, WeatherLocationDto} from 'projects/core/src/public-api';
+import {CoreQuery, CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from 'projects/core/src/public-api';
 import {combineLatest, Observable} from "rxjs";
 
 @Component({
@@ -14,12 +14,15 @@ export class HomepageComponent {
 
   private currentWeather$ = this.appCore.currentWeather$;
   private currentLocation$ = this.appCore.currentLocation$;
+  private multiForecast$ = this.appCore.multiForecast$;
   public viewData$: Observable<{
     currentWeather: CurrentWeatherDto;
-    currentLocation: WeatherLocationDto
+    currentLocation: WeatherLocationDto,
+    multiForecast: MultiDayForecast,
   }> = combineLatest({
     currentWeather: this.currentWeather$,
-    currentLocation: this.currentLocation$
+    currentLocation: this.currentLocation$,
+    multiForecast: this.multiForecast$,
   });
 
   getIcon(weatherIcon: number) {

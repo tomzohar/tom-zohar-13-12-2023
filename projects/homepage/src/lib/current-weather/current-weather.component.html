@@ -1,0 +1,29 @@
+<app-card>
+  <div class="weather-details">
+
+    <div class="icon">
+      <img [ngSrc]="icon" width="200" height="90" priority
+           alt="current_weather_icon">
+    </div>
+
+    <div class="details">
+
+      <h2 class="location">
+        {{city}}, {{ country }}
+      </h2>
+
+      <div class="temperature">
+        <h3>{{temperature.Value}} {{temperature.Unit}}</h3>
+        <h4 class="description">
+          {{weatherDescription}}
+        </h4>
+      </div>
+
+      <div class="time">
+        {{time | date}}
+      </div>
+
+    </div>
+  </div>
+
+</app-card>
