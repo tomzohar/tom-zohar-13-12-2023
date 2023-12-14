@@ -2,28 +2,16 @@ import {WeatherApiService} from "./weather-api.service";
 import {TestBed} from "@angular/core/testing";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {LocalStorageService} from "../../local-storage/local-storage.service";
-import {Mock} from "ts-mocks";
 
 
 describe('WeatherApiService', () => {
   let service: WeatherApiService;
   let httpClientMock: HttpTestingController;
-  let localStorageServiceMock: Mock<LocalStorageService>;
-
   beforeEach(() => {
-    localStorageServiceMock = new Mock<LocalStorageService>({
-      getItem: () => null,
-      setItem: () => {
-      }
-    });
 
     TestBed.configureTestingModule({
       providers: [
         WeatherApiService,
-        {
-          provide: LocalStorageService,
-          useFactory: () => localStorageServiceMock.Object,
-        }
       ],
       imports: [HttpClientTestingModule]
     });
@@ -60,10 +48,11 @@ describe('WeatherApiService', () => {
     });
 
     it('should save the cache in the local storage', () => {
+      spyOn(LocalStorageService, 'setItem').and.callThrough();
       service.searchLocation(searchTerm).subscribe();
       const testRequest = httpClientMock.expectOne(url);
       testRequest.flush({key: 1234});
-      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({
+      expect(LocalStorageService.setItem).toHaveBeenCalledWith({
         key: 'apiRequests',
         item: service['searchTermCache']
       });
@@ -95,10 +84,11 @@ describe('WeatherApiService', () => {
     });
 
     it('should save the cache in the local storage', () => {
+      spyOn(LocalStorageService, 'setItem').and.callThrough();
       service.getCurrentWeather(locationKey).subscribe();
       const testRequest = httpClientMock.expectOne(url);
       testRequest.flush(1);
-      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({
+      expect(LocalStorageService.setItem).toHaveBeenCalledWith({
         key: 'apiRequests',
         item: service['searchTermCache']
       });
@@ -130,10 +120,11 @@ describe('WeatherApiService', () => {
     });
 
     it('should save the cache in the local storage', () => {
+      spyOn(LocalStorageService, 'setItem').and.callThrough();
       service.getForecast(locationKey).subscribe();
       const testRequest = httpClientMock.expectOne(url);
       testRequest.flush(1);
-      expect(localStorageServiceMock.Object.setItem).toHaveBeenCalledWith({
+      expect(LocalStorageService.setItem).toHaveBeenCalledWith({
         key: 'apiRequests',
         item: service['searchTermCache']
       });
