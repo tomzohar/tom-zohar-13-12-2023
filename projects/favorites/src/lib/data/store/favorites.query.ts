@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Query} from "@datorama/akita";
 import {FavoritesState, FavoritesStore} from "./favorites.store";
-import {combineLatest, map, Observable, switchMap} from "rxjs";
+import {catchError, combineLatest, EMPTY, map, Observable, switchMap} from "rxjs";
 import {
+  AlertService,
   CurrentWeatherDto,
   WeatherApiService,
   WeatherLocationDto,
@@ -20,8 +21,8 @@ export class FavoritesQuery extends Query<FavoritesState> {
       switchMap((favorites) => {
         return combineLatest(favorites.map(favorite => {
           return combineLatest([
-            this.weatherApiService.getCurrentWeather(favorite),
-            this.weatherSearchService.getLocationByKey(favorite)
+            this.getCurrentWeather(favorite),
+            this.getLocation(favorite),
           ])
             .pipe(
               map(([weather, location]) => ({
@@ -38,6 +39,7 @@ export class FavoritesQuery extends Query<FavoritesState> {
     protected override store: FavoritesStore,
     private weatherApiService: WeatherApiService,
     private weatherSearchService: WeatherSearchService,
+    private alertService: AlertService,
   ) {
     super(store);
   }
@@ -46,5 +48,24 @@ export class FavoritesQuery extends Query<FavoritesState> {
     this.store.update(state => ({
       favorites
     }))
+  }
+
+  private getLocation(locationKey: string): Observable<WeatherLocationDto> {
+    return this.weatherSearchService.getLocationByKey(locationKey)
+      .pipe(
+        catchError(error => {
+          this.alertService.showAlert(error.message);
+          return EMPTY;
+        })
+      );
+  }
+
+  private getCurrentWeather(locationKey: string): Observable<CurrentWeatherDto> {
+    return this.weatherApiService.getCurrentWeather(locationKey).pipe(
+      catchError(error => {
+        this.alertService.showAlert(error.message);
+        return EMPTY;
+      })
+    )
   }
 }

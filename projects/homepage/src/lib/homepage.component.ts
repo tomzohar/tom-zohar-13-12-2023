@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {getIcon} from 'projects/core/src/lib/const/weather-icons.const';
 import {
+  AlertService,
   CoreQuery,
   CurrentWeatherDto,
   MultiDayForecast,
@@ -18,6 +19,7 @@ import {BehaviorSubject, catchError, combineLatest, EMPTY, Observable} from "rxj
 export class HomepageComponent {
   private appCore = inject(CoreQuery);
   private weatherSearchService = inject(WeatherSearchService);
+  private alertService = inject(AlertService);
 
   private currentWeather$ = this.appCore.currentWeather$;
   private currentLocation$ = this.appCore.currentLocation$;
@@ -47,7 +49,7 @@ export class HomepageComponent {
     this.weatherSearchService.searchLocation(term)
       .pipe(
         catchError((err) => {
-          alert(err);
+          this.alertService.showAlert(err.message);
           return EMPTY;
         })
       )

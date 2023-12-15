@@ -6,6 +6,7 @@ import {WeatherApiService} from "../services/weather-api.service";
 import {CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from "../../../types/interface/weather.interface";
 import {LocalStorageService} from "../../local-storage/local-storage.service";
 import {LocalStorageKeys} from "../../../types/enum/local-storage-keys.enum";
+import {AlertService} from "../../../services/alert.service";
 
 
 @Injectable({providedIn: 'root'})
@@ -29,6 +30,7 @@ export class CoreQuery extends Query<CoreState> {
   constructor(
     protected override store: CoreStore,
     private weatherApiService: WeatherApiService,
+    private alertService: AlertService,
   ) {
     super(store);
   }
@@ -78,6 +80,7 @@ export class CoreQuery extends Query<CoreState> {
         }),
         catchError(error => {
           alert(error);
+          this.alertService.showAlert(error.message);
           return EMPTY;
         })
       )
@@ -90,7 +93,7 @@ export class CoreQuery extends Query<CoreState> {
     return this.weatherApiService.getCurrentWeather(locationKey)
       .pipe(
         catchError((err) => {
-          alert(err);
+          this.alertService.showAlert(err.message);
           return EMPTY;
         })
       );
