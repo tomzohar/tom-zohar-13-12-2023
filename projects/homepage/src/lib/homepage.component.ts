@@ -8,7 +8,7 @@ import {
   WeatherLocationDto,
   WeatherSearchService
 } from 'projects/core/src/public-api';
-import {BehaviorSubject, catchError, combineLatest, EMPTY, Observable, tap} from "rxjs";
+import {BehaviorSubject, catchError, combineLatest, EMPTY, Observable} from "rxjs";
 
 @Component({
   selector: 'app-homepage',

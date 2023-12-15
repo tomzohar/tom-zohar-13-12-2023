@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FavoriteLocation, FavoritesQuery} from "./data/store/favorites.query";
 import {FavoritesStore} from "./data/store/favorites.store";
-import {combineLatest, Observable, tap} from "rxjs";
+import {combineLatest, Observable} from "rxjs";
 import {CoreQuery, LocalStorageKeys, LocalStorageService} from 'projects/core/src/public-api';
 import {getIcon} from 'projects/core/src/lib/const/weather-icons.const';
 import {Router} from "@angular/router";

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Query} from '@datorama/akita';
 import {CoreState, CoreStore} from "./core.store";
-import {catchError, combineLatest, EMPTY, Observable, of, switchMap, tap} from "rxjs";
+import {catchError, combineLatest, EMPTY, filter, Observable, of, switchMap, tap} from "rxjs";
 import {WeatherApiService} from "../services/weather-api.service";
 import {CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from "../../../types/interface/weather.interface";
 import {LocalStorageService} from "../../local-storage/local-storage.service";
@@ -18,14 +18,14 @@ export class CoreQuery extends Query<CoreState> {
   readonly currentLocation$ = this.select('currentLocation');
 
   readonly currentWeather$ = this.currentLocation$.pipe(
+    filter(Boolean),
     switchMap((location: WeatherLocationDto) => this.getCurrentWeather(location.Key)),
-    tap((currentWeather: CurrentWeatherDto) => {
-      this.setDarkMode(!currentWeather.IsDayTime);
-    }),
+    tap((currentWeather: CurrentWeatherDto) => this.setDarkMode(!currentWeather.IsDayTime)),
     tap(() => this.setLoading(false))
   );
 
   readonly multiForecast$ = combineLatest([this.currentLocation$, this.isMetric$]).pipe(
+    filter(([location]) => !!location),
     switchMap(([location, isMetric]: [WeatherLocationDto, boolean]) => this.getForecast(location, isMetric)),
     tap(() => this.setLoading(false))
   );
@@ -85,7 +85,6 @@ export class CoreQuery extends Query<CoreState> {
         }),
         tap(() => this.setLoading(false)),
         catchError(error => {
-          alert(error);
           this.alertService.showAlert(error.message);
           return of(DEFAULT_LOCATION);
         })
@@ -113,7 +112,7 @@ export class CoreQuery extends Query<CoreState> {
     return this.weatherApiService.getForecast(location.Key, isMetric)
       .pipe(
         catchError(err => {
-          alert(err);
+          this.alertService.showAlert(err.message);
           return EMPTY;
         })
       )
