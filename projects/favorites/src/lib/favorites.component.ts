@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FavoriteLocation, FavoritesQuery} from "./data/store/favorites.query";
 import {FavoritesStore} from "./data/store/favorites.store";
-import {combineLatest, Observable} from "rxjs";
+import {combineLatest, Observable, tap} from "rxjs";
 import {CoreQuery, LocalStorageKeys, LocalStorageService} from 'projects/core/src/public-api';
 import {getIcon} from 'projects/core/src/lib/const/weather-icons.const';
 import {Router} from "@angular/router";
@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FavoritesStore, FavoritesQuery]
 })
-export class FavoritesComponent {
+export class FavoritesComponent implements OnInit {
 
   private favoritesQuery = inject(FavoritesQuery);
   private appCore = inject(CoreQuery);
@@ -21,6 +21,7 @@ export class FavoritesComponent {
 
   favorites$ = this.favoritesQuery.favorites$;
   isMetric$ = this.appCore.isMetric$;
+  loading$ = this.favoritesQuery.selectLoading();
 
   public viewData$: Observable<{
     favorites: FavoriteLocation[],
@@ -28,7 +29,11 @@ export class FavoritesComponent {
   }> = combineLatest({
     favorites: this.favorites$,
     isMetric: this.isMetric$,
-  })
+  });
+
+  ngOnInit(): void {
+    this.favoritesQuery.setLoading(true);
+  }
 
   getIcon(weatherIcon: number) {
     return getIcon(weatherIcon);

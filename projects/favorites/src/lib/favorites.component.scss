@@ -5,6 +5,11 @@
   min-height: calc(100vh - var(--toolbar-height));
   height: calc(100% - var(--toolbar-height));
 
+  .loader-wrapper {
+    display: grid;
+    place-content: center;
+  }
+
   app-card {
     display: block;
     margin-top: 24px;

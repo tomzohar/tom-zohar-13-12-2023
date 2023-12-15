@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Query} from '@datorama/akita';
 import {CoreState, CoreStore} from "./core.store";
-import {catchError, combineLatest, EMPTY, Observable, switchMap, tap} from "rxjs";
+import {catchError, combineLatest, EMPTY, Observable, of, switchMap, tap} from "rxjs";
 import {WeatherApiService} from "../services/weather-api.service";
 import {CurrentWeatherDto, MultiDayForecast, WeatherLocationDto} from "../../../types/interface/weather.interface";
 import {LocalStorageService} from "../../local-storage/local-storage.service";
 import {LocalStorageKeys} from "../../../types/enum/local-storage-keys.enum";
 import {AlertService} from "../../../services/alert.service";
+import {DEFAULT_LOCATION} from "../../../const/default-location.const";
 
 
 @Injectable({providedIn: 'root'})
@@ -20,11 +21,13 @@ export class CoreQuery extends Query<CoreState> {
     switchMap((location: WeatherLocationDto) => this.getCurrentWeather(location.Key)),
     tap((currentWeather: CurrentWeatherDto) => {
       this.setDarkMode(!currentWeather.IsDayTime);
-    })
+    }),
+    tap(() => this.setLoading(false))
   );
 
   readonly multiForecast$ = combineLatest([this.currentLocation$, this.isMetric$]).pipe(
-    switchMap(([location, isMetric]: [WeatherLocationDto, boolean]) => this.getForecast(location, isMetric))
+    switchMap(([location, isMetric]: [WeatherLocationDto, boolean]) => this.getForecast(location, isMetric)),
+    tap(() => this.setLoading(false))
   );
 
   constructor(
@@ -43,9 +46,10 @@ export class CoreQuery extends Query<CoreState> {
   }
 
   setCurrentLocation(location: CoreState['currentLocation']): void {
+    this.setLoading(true);
     this.store.update(state => ({
       ...state,
-      currentLocation: location
+      currentLocation: location,
     }));
   }
 
@@ -73,20 +77,26 @@ export class CoreQuery extends Query<CoreState> {
   }
 
   initUserLocation(): void {
+    this.setLoading(true);
     this.weatherApiService.getClientIp()
       .pipe(
         switchMap(ip => {
-          return this.weatherApiService.getLocationByIp(ip);
+          return this.weatherApiService.getLocationByIp(ip)
         }),
+        tap(() => this.setLoading(false)),
         catchError(error => {
           alert(error);
           this.alertService.showAlert(error.message);
-          return EMPTY;
+          return of(DEFAULT_LOCATION);
         })
       )
       .subscribe(location => {
         this.setCurrentLocation(location);
       })
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.store.setLoading(isLoading);
   }
 
   private getCurrentWeather(locationKey: string): Observable<CurrentWeatherDto> {

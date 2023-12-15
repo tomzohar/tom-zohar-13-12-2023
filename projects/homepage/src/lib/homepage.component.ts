@@ -8,7 +8,7 @@ import {
   WeatherLocationDto,
   WeatherSearchService
 } from 'projects/core/src/public-api';
-import {BehaviorSubject, catchError, combineLatest, EMPTY, Observable} from "rxjs";
+import {BehaviorSubject, catchError, combineLatest, EMPTY, Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -20,6 +20,8 @@ export class HomepageComponent {
   private appCore = inject(CoreQuery);
   private weatherSearchService = inject(WeatherSearchService);
   private alertService = inject(AlertService);
+
+  loading$ = this.appCore.selectLoading();
 
   private currentWeather$ = this.appCore.currentWeather$;
   private currentLocation$ = this.appCore.currentLocation$;

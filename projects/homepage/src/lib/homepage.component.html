@@ -15,28 +15,35 @@
   <div class="current-weather">
     <ng-container *ngIf="viewData$ | async as viewData">
 
-      <app-current-weather
-        [icon]="getIcon(viewData.currentWeather.WeatherIcon)"
-        [city]="viewData.currentLocation.LocalizedName"
-        [country]="viewData.currentLocation.Country.LocalizedName"
-        [temperature]="viewData.isMetric ? viewData.currentWeather.Temperature.Metric : viewData.currentWeather.Temperature.Imperial"
-        [weatherDescription]="viewData.currentWeather.WeatherText"
-        [time]="viewData.currentWeather.LocalObservationDateTime"
-        [favorite]="viewData.currentLocation.isFavorite"
-        (toggleFavorite)="onToggleFavorite($event)"
-      />
+      <ng-container *ngIf="loading$ | async; else view">
+        <app-loader></app-loader>
+      </ng-container>
 
-      <div class="forecast">
-        <app-forecast-summary
-          *ngFor="let forecast of viewData.multiForecast.DailyForecasts"
-          [icon]="getIcon(viewData.currentWeather.IsDayTime ? forecast.Day.Icon : forecast.Night.Icon)"
-          [description]="viewData.currentWeather.IsDayTime ? forecast.Day.IconPhrase : forecast.Night.IconPhrase"
-          [maxTemp]="forecast.Temperature.Maximum"
-          [minTemp]="forecast.Temperature.Minimum"
-          [date]="forecast.Date"
+      <ng-template #view>
+        <app-current-weather
+          [icon]="getIcon(viewData.currentWeather.WeatherIcon)"
+          [city]="viewData.currentLocation.LocalizedName"
+          [country]="viewData.currentLocation.Country.LocalizedName"
+          [temperature]="viewData.isMetric ? viewData.currentWeather.Temperature.Metric : viewData.currentWeather.Temperature.Imperial"
+          [weatherDescription]="viewData.currentWeather.WeatherText"
+          [time]="viewData.currentWeather.LocalObservationDateTime"
+          [favorite]="viewData.currentLocation.isFavorite"
+          (toggleFavorite)="onToggleFavorite($event)"
         />
-      </div>
+
+        <div class="forecast">
+          <app-forecast-summary
+            *ngFor="let forecast of viewData.multiForecast.DailyForecasts"
+            [icon]="getIcon(viewData.currentWeather.IsDayTime ? forecast.Day.Icon : forecast.Night.Icon)"
+            [description]="viewData.currentWeather.IsDayTime ? forecast.Day.IconPhrase : forecast.Night.IconPhrase"
+            [maxTemp]="forecast.Temperature.Maximum"
+            [minTemp]="forecast.Temperature.Minimum"
+            [date]="forecast.Date"
+          />
+        </div>
+      </ng-template>
 
     </ng-container>
   </div>
 </div>
+

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Query} from "@datorama/akita";
 import {FavoritesState, FavoritesStore} from "./favorites.store";
-import {catchError, combineLatest, EMPTY, map, Observable, switchMap} from "rxjs";
+import {catchError, combineLatest, EMPTY, map, Observable, switchMap, tap} from "rxjs";
 import {
   AlertService,
   CurrentWeatherDto,
@@ -29,7 +29,8 @@ export class FavoritesQuery extends Query<FavoritesState> {
                 ...weather,
                 ...location,
                 isFavorite: true,
-              }))
+              })),
+              tap(() => this.store.setLoading(false)),
             );
         }));
       })
@@ -48,6 +49,10 @@ export class FavoritesQuery extends Query<FavoritesState> {
     this.store.update(state => ({
       favorites
     }))
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.store.setLoading(isLoading);
   }
 
   private getLocation(locationKey: string): Observable<WeatherLocationDto> {

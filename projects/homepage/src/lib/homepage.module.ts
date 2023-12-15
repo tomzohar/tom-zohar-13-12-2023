@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {HomepageComponent} from './homepage.component';
 import {HomepageRoutingModule} from "./homepage-routing.module";
-import {AutocompleteComponent, CardComponent} from 'projects/ui/src/public-api';
+import {AutocompleteComponent, CardComponent, LoaderComponent} from 'projects/ui/src/public-api';
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {CurrentWeatherComponent} from "./current-weather/current-weather.component";
 import {ForecastSummaryComponent} from "./forecast-summary/forecast-summary.component";
@@ -18,7 +18,8 @@ import {ForecastSummaryComponent} from "./forecast-summary/forecast-summary.comp
     NgOptimizedImage,
     CurrentWeatherComponent,
     ForecastSummaryComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    LoaderComponent,
   ],
   exports: [
     HomepageComponent

@@ -1,3 +1,9 @@
+<ng-container *ngIf="loading$ | async">
+  <div class="loader-wrapper">
+    <app-loader></app-loader>
+  </div>
+</ng-container>
+
 <ng-container *ngIf="viewData$ | async as viewData">
 
   <ng-container *ngFor="let location of viewData.favorites">
