@@ -9,3 +9,4 @@ export * from './lib/types/enum/local-storage-keys.enum';
 export * from './lib/data/weather/services/weather-api.service';
 export * from './lib/data/local-storage/local-storage.service';
 export * from './lib/services/alert.service';
+export * from './lib/types/enum/app-routes.enum';
