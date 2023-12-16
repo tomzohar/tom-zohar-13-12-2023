@@ -24,14 +24,6 @@ export class WeatherSearchService {
         }));
   }
 
-  private enrichLocation(locations: WeatherLocationDto[]) {
-    const favorites = LocalStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
-    return locations.map(location => ({
-      ...location,
-      isFavorite: favorites.includes(location.Key)
-    }));
-  }
-
   getLocationByKey(locationKey: string): Observable<WeatherLocationDto> {
     if (this.locationKeysCache.get(locationKey)) {
       return of(this.locationKeysCache.get(locationKey));
@@ -43,5 +35,13 @@ export class WeatherSearchService {
           this.locationKeysCache.set(locationKey, location);
         })
       );
+  }
+
+  private enrichLocation(locations: WeatherLocationDto[]) {
+    const favorites = LocalStorageService.getItem<string[]>(LocalStorageKeys.favorites) || [];
+    return locations.map(location => ({
+      ...location,
+      isFavorite: favorites.includes(location.Key)
+    }));
   }
 }

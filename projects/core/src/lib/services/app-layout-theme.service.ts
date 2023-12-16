@@ -1,5 +1,7 @@
 import {Injectable} from "@angular/core";
-import {AppColors, AppColorsDarkMode, AppColorsLightMode, AppCssVariables} from "../const/colors.const";
+import {AppColorsDarkMode, AppColorsLightMode} from "../const/colors.const";
+import {AppColors} from "../types/enum/app-colors.enum";
+import {AppCssVariables} from "../types/enum/css-variables.enum";
 
 @Injectable({providedIn: 'root'})
 export class AppLayoutThemeService {

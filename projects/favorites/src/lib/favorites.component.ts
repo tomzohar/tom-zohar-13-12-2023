@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {FavoriteLocation, FavoritesQuery} from "./data/store/favorites.query";
 import {FavoritesStore} from "./data/store/favorites.store";
 import {combineLatest, Observable} from "rxjs";
-import {CoreQuery, LocalStorageKeys, LocalStorageService} from 'projects/core/src/public-api';
+import {AppRoutes, CoreQuery, LocalStorageKeys, LocalStorageService} from 'projects/core/src/public-api';
 import {getIcon} from 'projects/core/src/lib/const/weather-icons.const';
 import {Router} from "@angular/router";
 
@@ -41,7 +41,7 @@ export class FavoritesComponent implements OnInit {
 
   onSelectLocation(location: FavoriteLocation): void {
     this.appCore.setCurrentLocation(location);
-    this.router.navigate(['/home']);
+    this.router.navigate([AppRoutes.home]);
   }
 
   onFavoriteChange(locationKey: string): void {

@@ -1,16 +1,7 @@
 import {ThemePalette} from "@angular/material/core";
+import {AppColors} from "../types/enum/app-colors.enum";
 
 export type ThemeColors = ThemePalette & string;
-
-export enum AppColors {
-  primary = '--clr-primary',
-  textPrimary = '--clr-text',
-  bgColor = '--clr-bg'
-}
-
-export enum AppCssVariables {
-  homepageBg = '--homepage-bg-img',
-}
 
 export const AppColorsLightMode = {
   [AppColors.primary]: '#85add8',
