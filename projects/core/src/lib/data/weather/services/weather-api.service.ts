@@ -33,7 +33,7 @@ export class WeatherApiService {
   }
 
   getClientIp(): Observable<string> {
-    return this.http.get<string>("http://api.ipify.org/?format=json").pipe(
+    return this.http.get<string>("https://api.ipify.org/?format=json").pipe(
       map((res: any) => {
         return res.ip;
       })
